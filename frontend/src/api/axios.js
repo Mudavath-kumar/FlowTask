@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+// When running in local development mode on Vite (port 5173), fallback to localhost:5000.
+// In production (e.g., Render unified deployment), fallback to relative '/api' automatically.
+const isDev = import.meta.env.DEV;
+const defaultBaseUrl = isDev ? 'http://localhost:5000/api' : '/api';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || defaultBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -139,7 +139,7 @@ npm run install:all
 Copy `backend/.env.example` to `backend/.env`:
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://wordp726_db_user:Kumar%40054@cluster0.6njtymx.mongodb.net/taskflow?appName=Cluster0
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/taskflow?appName=Cluster0
 JWT_SECRET=your_jwt_secret_key
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
@@ -202,7 +202,7 @@ You can deploy the **entire application** (Frontend + Backend together in one si
    * **Start Command**: `npm start`
 4. Add Environment Variables:
    * `PORT`: `5000`
-   * `MONGO_URI`: `mongodb+srv://wordp726_db_user:Kumar%40054@cluster0.6njtymx.mongodb.net/taskflow?appName=Cluster0`
+   * `MONGO_URI`: `mongodb+srv://<username>:<password>@cluster0.mongodb.net/taskflow?appName=Cluster0`
    * `JWT_SECRET`: `your_secure_jwt_secret_key`
    * `NODE_ENV`: `production`
 5. Click **Create Web Service**.

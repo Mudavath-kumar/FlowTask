@@ -5,9 +5,9 @@
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![MongoDB Atlas](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
-[![Cloudflare Pages](https://img.shields.io/badge/Deploy-Cloudflare%20Pages-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
+[![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?logo=render&logoColor=white)](https://render.com/)
 
-**FlowTask** is a production-grade full-stack SaaS task management and productivity analytics application. Built with **React 18 (Vite)**, **Node.js/Express**, and **MongoDB Atlas**, it delivers a minimal, responsive experience with instant Dark/Light theme switching, real-time filtering, multi-field sorting, pagination, and visual Recharts analytics.
+**FlowTask** is a production-grade full-stack SaaS task management and productivity analytics application. Built with **React 18 (Vite)**, **Node.js/Express**, and **MongoDB Atlas**, it delivers a minimal, responsive experience with instant Dark/Light theme switching, real-time filtering, multi-field sorting, pagination, visual Recharts analytics, and an **automated Keep-Alive health system** to prevent Render free instances from sleeping.
 
 ---
 
@@ -35,13 +35,10 @@
   * Live KPI metric cards (Total Tasks, Completed, Pending, and Completion Rate %).
   * **Recharts Status Distribution** bar chart.
   * **Recharts Priority Breakdown** pie/donut chart.
-* 🛡️ **Defensive UX & Feedback**:
-  * Non-intrusive Toast notification feedback for actions (create, edit, delete, status toggle).
-  * Confirmation dialog modals before destructive actions.
-  * Skeleton loading screens and helpful empty states.
-* ⚡ **Optimized for Cloudflare Pages & Render**:
-  * Single Page Application (SPA) routing configuration (`_redirects` & `_headers`) for Cloudflare Pages.
-  * Compound MongoDB database indexing (`user + status`, `user + priority`, `user + dueDate`) for fast queries.
+* 🛡️ **Anti-Sleep / Keep-Alive System**:
+  * Built-in automated self-pinging background cron targeting `/api/health` every 14 minutes to prevent Render free-tier sleep mode.
+* ⚡ **Unified Full-Stack Deployment**:
+  * Can be deployed as a **single unified service** (Frontend + Backend bundled) on Render with 1 click!
 
 ---
 
@@ -49,7 +46,7 @@
 
 ```text
 ┌────────────────────────────────────────────────────────┐
-│             React + Vite (Cloudflare Pages)            │
+│             React + Vite Frontend (SPA)                │
 │       Pages: Login, Signup, Dashboard, Tasks, Analytics │
 │          Contexts: AuthContext, ThemeContext            │
 │          Axios Client with Token Interceptor            │
@@ -59,15 +56,16 @@
 ┌────────────────────────────────────────────────────────┐
 │               Express.js REST API (Render)             │
 │        Routes: /api/auth/*, /api/tasks/*               │
-│        Middleware: Auth (JWT), ErrorHandler            │
+│        Health & Anti-Sleep Cron: /api/health           │
 │        Controllers: authController, taskController     │
+│        Static React Build Delivery (in Production)     │
 └───────────────────────────┬────────────────────────────┘
-                            │  Mongoose ODM (with Compound Indexes)
+                            │  Mongoose ODM (Compound Indexes)
                             ▼
 ┌────────────────────────────────────────────────────────┐
 │                  MongoDB Atlas Cluster                 │
 │              Collections: users, tasks                 │
-└────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────┘
 ```
 
 ---
@@ -92,14 +90,15 @@ FlowTask/
 │   │   ├── authRoutes.js         # /api/auth endpoints
 │   │   └── taskRoutes.js         # /api/tasks endpoints
 │   ├── utils/
-│   │   └── generateToken.js      # JWT signing utility
+│   │   ├── generateToken.js      # JWT signing utility
+│   │   └── keepAlive.js          # Automated 14-min self-ping to prevent Render sleep
 │   ├── .env.example
 │   ├── package.json
-│   └── server.js                 # Express server entry point
+│   └── server.js                 # Express server entry point & static file server
 ├── frontend/
 │   ├── public/
-│   │   ├── _redirects            # Cloudflare Pages SPA 200 rewrite rule
-│   │   └── _headers              # Security headers for Cloudflare Pages
+│   │   ├── _redirects            # SPA 200 rewrite rule
+│   │   └── _headers              # Security headers
 │   ├── src/
 │   │   ├── api/
 │   │   │   └── axios.js          # Centralized Axios instance & interceptors
@@ -116,6 +115,7 @@ FlowTask/
 │   ├── package.json
 │   └── vite.config.js
 ├── .gitignore
+├── package.json                  # Root monorepo orchestration script for Render
 ├── PRD.txt
 └── README.md
 ```
@@ -130,47 +130,41 @@ git clone https://github.com/Mudavath-kumar/FlowTask.git
 cd FlowTask
 ```
 
-### 2. Backend Setup
+### 2. Install Dependencies
 ```bash
-cd backend
-npm install
-cp .env.example .env
+npm run install:all
 ```
-Update `backend/.env`:
+
+### 3. Configure Environment Variables
+Copy `backend/.env.example` to `backend/.env`:
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/taskflow?appName=Cluster0
+MONGO_URI=mongodb+srv://wordp726_db_user:Kumar%40054@cluster0.6njtymx.mongodb.net/taskflow?appName=Cluster0
 JWT_SECRET=your_jwt_secret_key
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
 ```
-Start backend:
-```bash
-npm run dev
-# Server running at http://localhost:5000
-```
 
-### 3. Frontend Setup
-```bash
-cd ../frontend
-npm install
-cp .env.example .env
-```
-Update `frontend/.env`:
+Copy `frontend/.env.example` to `frontend/.env`:
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```
-Start frontend:
-```bash
-npm run dev
-# Frontend live at http://localhost:5173
-```
+
+### 4. Start Development Servers
+* In terminal 1 (Backend): `npm run dev:backend`
+* In terminal 2 (Frontend): `npm run dev:frontend`
 
 ---
 
 ## 📖 API Documentation
 
 ### Base URL: `/api`
+
+### Health & Monitoring
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/health` | Public | Returns server uptime & prevents Render sleep mode |
 
 ### Authentication Endpoints
 
@@ -194,40 +188,35 @@ npm run dev
 
 ---
 
-## ☁️ Deployment Guide
+## 🚀 Deploying the Whole Project to Render (1-Click Unified Full-Stack)
 
-### 1. Deploy Frontend to **Cloudflare Pages**
-1. Push this repository to GitHub (`https://github.com/Mudavath-kumar/FlowTask.git`).
-2. Go to the [Cloudflare Dashboard](https://dash.cloudflare.com/) ➔ **Workers & Pages** ➔ **Create Application** ➔ **Pages** ➔ **Connect to Git**.
-3. Select the `FlowTask` repository.
-4. Configure Build Settings:
-   * **Framework preset**: `Vite` (or `None`)
-   * **Build command**: `npm run build`
-   * **Build output directory**: `dist`
-   * **Root directory (Advanced)**: `frontend`
-5. Under **Environment variables**, add:
-   * `VITE_API_URL`: `https://your-backend-service.onrender.com/api`
-6. Click **Save and Deploy**.
-   *(The included `frontend/public/_redirects` file automatically handles single-page app route rewrites).*
+You can deploy the **entire application** (Frontend + Backend together in one single Web Service) on Render:
 
-### 2. Deploy Backend to **Render**
 1. Log in to [Render](https://render.com) and click **New +** ➔ **Web Service**.
-2. Connect your GitHub repository `FlowTask`.
-3. Configure Service:
-   * **Root Directory**: `backend`
+2. Connect your GitHub repository **`Mudavath-kumar/FlowTask`**.
+3. Configure the Web Service:
+   * **Name**: `flowtask`
+   * **Root Directory**: *(Leave empty / root)*
    * **Environment**: `Node`
-   * **Build Command**: `npm install`
-   * **Start Command**: `node server.js`
+   * **Build Command**: `npm run build`
+   * **Start Command**: `npm start`
 4. Add Environment Variables:
    * `PORT`: `5000`
-   * `MONGO_URI`: `your_mongodb_atlas_connection_string`
-   * `JWT_SECRET`: `your_secure_secret_key`
+   * `MONGO_URI`: `mongodb+srv://wordp726_db_user:Kumar%40054@cluster0.6njtymx.mongodb.net/taskflow?appName=Cluster0`
+   * `JWT_SECRET`: `your_secure_jwt_secret_key`
    * `NODE_ENV`: `production`
-   * `CLIENT_URL`: `https://your-flowtask.pages.dev` (Your Cloudflare Pages domain)
 5. Click **Create Web Service**.
 
-### 3. MongoDB Atlas Database Access
-* In your MongoDB Atlas dashboard, navigate to **Network Access** and ensure your IP (or `0.0.0.0/0`) is whitelisted for incoming traffic from Render.
+Render will install dependencies, compile the React Vite production bundle, start the Express server with static React delivery, and activate the built-in **Keep-Alive ping** at `https://<your-app>.onrender.com/api/health` to keep your instance awake 24/7!
+
+---
+
+## 💤 How the Anti-Sleep / Keep-Alive System Works
+
+1. In production, `backend/utils/keepAlive.js` automatically starts a background timer.
+2. Every **14 minutes**, it sends an HTTP/HTTPS GET request to `/api/health`.
+3. Because Render checks for activity every 15 minutes, this periodic self-ping resets Render's idle counter and keeps the server active.
+4. **Optional External Monitor**: You can also add your `/api/health` URL (e.g. `https://your-app.onrender.com/api/health`) to a free uptime tool like [UptimeRobot](https://uptimerobot.com) or [Cron-Job.org](https://cron-job.org) for 100% external guarantee.
 
 ---
 

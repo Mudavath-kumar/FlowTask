@@ -1,0 +1,1152 @@
+# Build TaskFlow — Full-Stack Task Management & Analytics Platform
+
+Build a production-quality full-stack web application called **TaskFlow**.
+
+TaskFlow is a minimal, modern task management platform where authenticated users can create, organize, track, search, filter, sort, and analyze their tasks.
+
+The application must be fully functional, responsive, secure, and deployable.
+
+---
+
+## 1. Technology Stack
+
+### Frontend
+
+* React.js
+* Vite
+* JavaScript only
+* React Router
+* Axios
+* CSS / CSS Modules
+* Use a lightweight chart library such as Recharts for analytics
+* No TypeScript
+* No unnecessary UI framework
+
+### Backend
+
+* Node.js
+* Express.js
+* JavaScript
+* MongoDB
+* Mongoose
+* JWT authentication
+* bcrypt for password hashing
+* dotenv
+* CORS
+
+### Deployment
+
+* Frontend → Vercel
+* Backend → Render
+* Database → MongoDB Atlas
+* Source code → GitHub
+
+---
+
+# 2. Design Theme
+
+Create a **minimal premium SaaS dashboard**.
+
+The visual style should feel similar to modern productivity applications.
+
+### Design principles
+
+* Minimal
+* Clean
+* Professional
+* Spacious
+* Fast
+* Accessible
+* Mobile responsive
+* No unnecessary gradients
+* No excessive animations
+* No visual clutter
+
+### Color system
+
+Light mode:
+
+* Background: soft off-white
+* Surface: white
+* Primary text: near-black
+* Secondary text: muted gray
+* Borders: subtle gray
+* Primary action: dark/black
+* Success: green
+* Warning: amber
+* Danger: red
+
+Dark mode:
+
+* Background: near-black
+* Surface: dark gray
+* Text: white/light gray
+* Borders: subtle dark gray
+* Primary action: white with dark text
+
+Use CSS variables so the theme can be switched easily.
+
+---
+
+# 3. Typography
+
+Use a modern sans-serif font.
+
+Recommended:
+
+* Inter
+* Geist
+* system-ui
+
+Typography should be clean and compact.
+
+Use clear hierarchy:
+
+* Large page headings
+* Medium section headings
+* Small muted labels
+* Compact metadata
+
+Avoid oversized typography.
+
+---
+
+# 4. Application Layout
+
+Desktop layout:
+
+```text
+┌────────────────────────────────────────────────────────────┐
+│ TaskFlow                         🔔   ☀/☾   Kumar ▼       │
+├───────────────┬────────────────────────────────────────────┤
+│               │                                            │
+│ Dashboard     │  Dashboard                                 │
+│ Tasks         │  Manage your work and track progress.      │
+│ Analytics     │                                            │
+│               │  ┌────────┐ ┌────────┐ ┌────────┐ ┌──────┐ │
+│               │  │ Total  │ │ Done   │ │Pending │ │Rate  │ │
+│               │  │  24    │ │  15    │ │   9    │ │ 62%  │ │
+│               │  └────────┘ └────────┘ └────────┘ └──────┘ │
+│               │                                            │
+│               │  Search...       Filter ▼    + New Task   │
+│               │                                            │
+│               │  Task list                                 │
+│               │                                            │
+└───────────────┴────────────────────────────────────────────┘
+```
+
+Mobile:
+
+```text
+┌─────────────────────────────┐
+│ TaskFlow          ☰         │
+├─────────────────────────────┤
+│ Dashboard                   │
+│                             │
+│ [Total] [Done]              │
+│ [Pending] [Rate]            │
+│                             │
+│ Search tasks...             │
+│                             │
+│ + New Task                  │
+│                             │
+│ Task cards                  │
+│                             │
+└─────────────────────────────┘
+```
+
+Use a sidebar on desktop and a mobile navigation drawer/bottom navigation on smaller screens.
+
+---
+
+# 5. Pages
+
+Create these pages:
+
+## Public
+
+### Login
+
+* Email
+* Password
+* Show/hide password
+* Login button
+* Link to Signup
+* Validation errors
+* Loading state
+
+### Signup
+
+* Name
+* Email
+* Password
+* Confirm password
+* Signup button
+* Link to Login
+* Validation errors
+* Loading state
+
+---
+
+# 6. Protected Pages
+
+## Dashboard
+
+Show:
+
+### Header
+
+```text
+Dashboard
+
+Manage your tasks and stay productive.
+```
+
+### Statistics cards
+
+* Total Tasks
+* Completed
+* Pending
+* Completion Rate
+
+Example:
+
+```text
+Total Tasks
+24
+
+Completed
+15
+
+Pending
+9
+
+Completion Rate
+62.5%
+```
+
+### Recent tasks
+
+Display the latest tasks.
+
+Each task should show:
+
+* Title
+* Short description
+* Status
+* Priority
+* Due date
+* Edit
+* Delete
+
+---
+
+# 7. Tasks Page
+
+Create a dedicated task management page.
+
+Top section:
+
+```text
+Tasks
+
+Search tasks...       Status ▼
+                      Priority ▼
+                      Sort ▼
+
+                         + New Task
+```
+
+Task list should support:
+
+* Search by title
+* Filter by status
+* Filter by priority
+* Sort by due date
+* Sort by priority
+* Pagination
+
+---
+
+# 8. Task Status
+
+Allowed values:
+
+```text
+Todo
+In Progress
+Done
+```
+
+Display statuses as compact badges.
+
+Examples:
+
+```text
+Todo          gray
+In Progress   blue
+Done          green
+```
+
+---
+
+# 9. Task Priority
+
+Allowed values:
+
+```text
+Low
+Medium
+High
+```
+
+Use visually distinct but subtle badges.
+
+---
+
+# 10. Create/Edit Task
+
+Use a modal or clean side panel.
+
+Fields:
+
+```text
+Title
+Description
+Status
+Priority
+Due Date
+```
+
+Buttons:
+
+```text
+Cancel
+Create Task
+```
+
+For editing:
+
+```text
+Cancel
+Save Changes
+```
+
+Validation:
+
+* Title required
+* Description optional
+* Valid status
+* Valid priority
+* Valid due date
+
+---
+
+# 11. Task Actions
+
+Each task should support:
+
+### Edit
+
+Open edit modal.
+
+### Delete
+
+Show confirmation dialog:
+
+```text
+Delete task?
+
+This action cannot be undone.
+
+Cancel     Delete
+```
+
+### Mark as completed
+
+Allow Todo/In Progress tasks to quickly become Done.
+
+---
+
+# 12. Analytics
+
+Create an Analytics page.
+
+Display:
+
+```text
+Task Analytics
+
+Total Tasks
+Completed
+Pending
+Completion Rate
+```
+
+Add a minimal chart.
+
+Recommended charts:
+
+### Tasks by Status
+
+```text
+Todo
+In Progress
+Done
+```
+
+### Tasks by Priority
+
+```text
+Low
+Medium
+High
+```
+
+Keep charts simple and readable.
+
+Do not overdesign the analytics page.
+
+---
+
+# 13. Backend Architecture
+
+Use a clean MVC-style structure.
+
+```text
+backend/
+│
+├── config/
+│   └── db.js
+│
+├── controllers/
+│   ├── authController.js
+│   └── taskController.js
+│
+├── middleware/
+│   ├── authMiddleware.js
+│   └── errorMiddleware.js
+│
+├── models/
+│   ├── User.js
+│   └── Task.js
+│
+├── routes/
+│   ├── authRoutes.js
+│   └── taskRoutes.js
+│
+├── utils/
+│   └── generateToken.js
+│
+├── .env
+├── server.js
+└── package.json
+```
+
+---
+
+# 14. User Model
+
+Create a User schema:
+
+```text
+name
+email
+password
+createdAt
+updatedAt
+```
+
+Requirements:
+
+* Email unique
+* Email normalized/lowercase
+* Password hashed with bcrypt
+* Never return password in API responses
+
+---
+
+# 15. Task Model
+
+Create a Task schema:
+
+```text
+title
+description
+status
+priority
+dueDate
+user
+createdAt
+updatedAt
+```
+
+Rules:
+
+```text
+status:
+Todo | In Progress | Done
+
+priority:
+Low | Medium | High
+```
+
+`user` must reference the User model.
+
+---
+
+# 16. Authentication API
+
+### Signup
+
+```http
+POST /api/auth/signup
+```
+
+Request:
+
+```json
+{
+  "name": "Kumar",
+  "email": "kumar@example.com",
+  "password": "password123"
+}
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "message": "Account created successfully",
+  "token": "...",
+  "user": {
+    "id": "...",
+    "name": "Kumar",
+    "email": "kumar@example.com"
+  }
+}
+```
+
+### Login
+
+```http
+POST /api/auth/login
+```
+
+Return JWT token and safe user information.
+
+---
+
+# 17. JWT Authentication
+
+Protect all task routes.
+
+Expected flow:
+
+```text
+React
+ ↓
+Authorization: Bearer TOKEN
+ ↓
+Express
+ ↓
+JWT verification
+ ↓
+req.user
+ ↓
+Controller
+```
+
+If token is missing or invalid:
+
+```text
+401 Unauthorized
+```
+
+---
+
+# 18. Task APIs
+
+Implement:
+
+```http
+GET    /api/tasks
+POST   /api/tasks
+GET    /api/tasks/:id
+PUT    /api/tasks/:id
+PATCH  /api/tasks/:id/status
+DELETE /api/tasks/:id
+```
+
+All routes require authentication.
+
+Users must only be able to access their own tasks.
+
+If a user attempts to access another user's task:
+
+```text
+403 Forbidden
+```
+
+or return:
+
+```text
+404 Not Found
+```
+
+without leaking information.
+
+---
+
+# 19. Search
+
+Support:
+
+```http
+GET /api/tasks?search=portfolio
+```
+
+Search should operate against the task title.
+
+Use case-insensitive matching.
+
+---
+
+# 20. Filtering
+
+Support:
+
+```http
+GET /api/tasks?status=Done
+```
+
+and:
+
+```http
+GET /api/tasks?priority=High
+```
+
+Allow combining filters.
+
+Example:
+
+```http
+GET /api/tasks?status=Todo&priority=High
+```
+
+---
+
+# 21. Sorting
+
+Support:
+
+```text
+dueDate
+priority
+createdAt
+```
+
+Example:
+
+```http
+GET /api/tasks?sort=dueDate&order=asc
+```
+
+---
+
+# 22. Pagination
+
+Support:
+
+```http
+GET /api/tasks?page=1&limit=10
+```
+
+Response:
+
+```json
+{
+  "tasks": [],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 24,
+    "totalPages": 3
+  }
+}
+```
+
+---
+
+# 23. Analytics API
+
+Create:
+
+```http
+GET /api/tasks/analytics
+```
+
+Return:
+
+```json
+{
+  "totalTasks": 24,
+  "completedTasks": 15,
+  "pendingTasks": 9,
+  "completionPercentage": 62.5,
+  "statusBreakdown": {
+    "todo": 5,
+    "inProgress": 4,
+    "done": 15
+  },
+  "priorityBreakdown": {
+    "low": 8,
+    "medium": 10,
+    "high": 6
+  }
+}
+```
+
+Calculate analytics from the authenticated user's tasks only.
+
+---
+
+# 24. Error Handling
+
+Implement global Express error middleware.
+
+All API errors should follow a consistent format:
+
+```json
+{
+  "success": false,
+  "message": "Task not found"
+}
+```
+
+Handle:
+
+* Validation errors
+* Authentication errors
+* Authorization errors
+* MongoDB errors
+* Invalid IDs
+* Not found routes
+* Unexpected server errors
+
+Do not expose stack traces in production.
+
+---
+
+# 25. MongoDB Optimization
+
+Create appropriate indexes.
+
+At minimum consider indexes for:
+
+```text
+user
+user + status
+user + priority
+user + dueDate
+```
+
+Avoid unnecessary indexes.
+
+---
+
+# 26. Frontend API Layer
+
+Create a centralized Axios client.
+
+Example structure:
+
+```text
+frontend/src/
+├── api/
+│   └── axios.js
+│
+├── services/
+│   ├── authService.js
+│   └── taskService.js
+```
+
+Do not scatter Axios requests throughout every component.
+
+---
+
+# 27. Authentication State
+
+Create an authentication context/store.
+
+Handle:
+
+```text
+login
+logout
+current user
+token
+authenticated state
+```
+
+Protected routes should redirect unauthenticated users to `/login`.
+
+---
+
+# 28. Loading States
+
+Every API-driven page must have proper loading states.
+
+Examples:
+
+```text
+Loading tasks...
+```
+
+or skeleton cards.
+
+Never leave the interface looking frozen.
+
+---
+
+# 29. Empty States
+
+When there are no tasks:
+
+```text
+No tasks yet
+
+Create your first task and start tracking your work.
+
++ Create Task
+```
+
+For search with no results:
+
+```text
+No tasks found
+
+Try changing your search or filters.
+```
+
+---
+
+# 30. Responsive Design
+
+The application must work properly on:
+
+* Desktop
+* Laptop
+* Tablet
+* Mobile
+
+Do not simply shrink the desktop layout.
+
+Adapt:
+
+* Sidebar
+* Task cards
+* Filters
+* Analytics cards
+* Modals
+* Navigation
+
+for mobile screens.
+
+---
+
+# 31. Dark Mode
+
+Add a theme toggle.
+
+Persist theme preference in localStorage.
+
+Use CSS variables.
+
+Do not duplicate the entire stylesheet for dark mode.
+
+---
+
+# 32. UX Details
+
+Add subtle interactions:
+
+* Button hover
+* Card hover
+* Modal animation
+* Toast notifications
+* Disabled button while submitting
+* Confirmation before destructive actions
+* Clear validation messages
+
+Animations should be subtle and fast.
+
+Avoid excessive animation.
+
+---
+
+# 33. Security
+
+Implement:
+
+* bcrypt password hashing
+* JWT authentication
+* Protected routes
+* User ownership checks
+* Input validation
+* CORS configuration
+* Environment variables
+* No hardcoded secrets
+* No password in API responses
+
+Never commit `.env` to GitHub.
+
+Create:
+
+```text
+.env.example
+```
+
+---
+
+# 34. Environment Variables
+
+Backend:
+
+```env
+PORT=5000
+MONGO_URI=
+JWT_SECRET=
+CLIENT_URL=
+NODE_ENV=development
+```
+
+Frontend:
+
+```env
+VITE_API_URL=
+```
+
+---
+
+# 35. GitHub Repository
+
+Repository:
+
+```text
+taskflow
+```
+
+Structure:
+
+```text
+taskflow/
+├── frontend/
+├── backend/
+├── README.md
+└── .gitignore
+```
+
+Use meaningful commits such as:
+
+```text
+feat: initialize backend
+feat: add user authentication
+feat: implement task CRUD
+feat: add task filtering and search
+feat: add analytics API
+feat: build dashboard UI
+feat: add dark mode
+feat: add responsive design
+docs: add deployment instructions
+```
+
+---
+
+# 36. README
+
+Create a professional README containing:
+
+## TaskFlow
+
+Short project description.
+
+## Features
+
+List all major features.
+
+## Tech Stack
+
+Frontend, backend, database and deployment.
+
+## Architecture
+
+Explain:
+
+```text
+React → Express → MongoDB
+```
+
+## Installation
+
+Explain how to run frontend and backend locally.
+
+## Environment Variables
+
+Document required variables.
+
+## API Documentation
+
+Document every API endpoint.
+
+## Design Decisions
+
+Explain:
+
+* JWT authentication
+* MVC architecture
+* MongoDB indexes
+* Pagination
+* Centralized Axios client
+* Global error handling
+
+## Screenshots
+
+Include screenshots after UI completion.
+
+## Deployment
+
+Include:
+
+* Vercel frontend
+* Render backend
+* MongoDB Atlas
+
+## Live Demo
+
+Add the deployed URL.
+
+## GitHub
+
+Add repository link.
+
+---
+
+# 37. Deployment
+
+Prepare the project for production.
+
+### MongoDB
+
+Create MongoDB Atlas database.
+
+Configure network access and database user.
+
+### Backend
+
+Deploy Express backend to Render.
+
+Configure:
+
+```text
+MONGO_URI
+JWT_SECRET
+CLIENT_URL
+NODE_ENV=production
+```
+
+### Frontend
+
+Deploy React application to Vercel.
+
+Configure:
+
+```text
+VITE_API_URL
+```
+
+Point it to the deployed Render API.
+
+Configure CORS on backend to allow the Vercel frontend URL.
+
+---
+
+# 38. Production Validation
+
+Before considering the project complete, test:
+
+### Authentication
+
+* Signup
+* Duplicate email
+* Invalid email
+* Weak password
+* Login
+* Wrong password
+* Logout
+* Expired/invalid JWT
+
+### Tasks
+
+* Create
+* Read
+* Update
+* Delete
+* Complete
+* Invalid task ID
+* Unauthorized task access
+
+### Search/filter
+
+* Search
+* Status filter
+* Priority filter
+* Combined filters
+* Sorting
+
+### Pagination
+
+* Page navigation
+* Empty page
+* Correct total count
+
+### Analytics
+
+* Correct total
+* Correct completed count
+* Correct pending count
+* Correct completion percentage
+
+### UI
+
+* Desktop
+* Tablet
+* Mobile
+* Dark mode
+* Empty state
+* Loading state
+* Error state
+
+---
+
+# 39. Final Quality Bar
+
+The final application should NOT look like a basic CRUD assignment.
+
+It should feel like a small real SaaS product.
+
+Prioritize:
+
+1. Correct functionality
+2. Security
+3. Clean architecture
+4. Good UX
+5. Responsive design
+6. Professional visual design
+7. Deployment
+8. Documentation
+
+Do not add unnecessary features until all assignment requirements are complete.
+
+Build the application incrementally and ensure each part works before moving to the next part.
